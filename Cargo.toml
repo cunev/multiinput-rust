@@ -1,6 +1,6 @@
 [package]
 name = "multiinput-zorua"
-version = "0.1.0"
+version = "0.1.1"
 authors = ["Alex Jones <alexander.jones@softwire.com>"]
 description = """
 A pure rust gamepad/mouse/keyboard input library based off of rawinput for the windows platform
