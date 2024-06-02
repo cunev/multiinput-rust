@@ -43,27 +43,26 @@ unsafe fn next_raw_input_block(array_ptr: &mut *mut u8) {
 
 fn read_input_buffer(event_queue: &mut VecDeque<RawEvent>, devices: &mut Devices) {
     unsafe {
-        let mut array_alloc: [u8; 16000] = MaybeUninit::uninit().assume_init();
         let mut buffer_size: UINT = 0;
-
-        let mut numberofelements: i32 = GetRawInputBuffer(
+        GetRawInputBuffer(
             ptr::null_mut(),
             &mut buffer_size,
             mem::size_of::<RAWINPUTHEADER>() as UINT,
-        ) as INT;
+        );
 
-        if numberofelements == -1 {
-            panic!("GetRawInputBuffer Gave Error on First Call!");
+        if buffer_size == 0 {
+            return; // No data to process
         }
-        buffer_size = 1024;
-        numberofelements = GetRawInputBuffer(
+
+        let mut array_alloc = vec![0u8; buffer_size as usize];
+        let numberofelements = GetRawInputBuffer(
             array_alloc.as_mut_ptr() as PRAWINPUT,
             &mut buffer_size,
             mem::size_of::<RAWINPUTHEADER>() as UINT,
-        ) as INT;
+        ) as i32;
 
         if numberofelements == -1 {
-            panic!("GetRawInputBuffer Gave Error on Second Call!");
+            panic!("GetRawInputBuffer gave an error on second call!");
         }
 
         let mut array_ptr = array_alloc.as_mut_ptr();
