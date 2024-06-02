@@ -1,6 +1,6 @@
-extern crate multiinput;
+extern crate multiinput_zorua;
 
-use multiinput::*;
+use multiinput_zorua::*;
 fn main() {
     let mut manager = RawInputManager::new().unwrap();
     manager.register_devices(DeviceType::Joysticks(XInputInclude::True));
@@ -12,7 +12,11 @@ fn main() {
     'outer: loop {
         if let Some(event) = manager.get_event() {
             match event {
-                RawEvent::KeyboardEvent(_, KeyId::Escape, State::Pressed) => break 'outer,
+                RawEvent::MouseMoveEvent(_, x, y) => {
+                    println!("MouseMoveEvent: {} {}", x, y);
+
+                    // break;
+                }
                 _ => (),
             }
             println!("{:?}", event);

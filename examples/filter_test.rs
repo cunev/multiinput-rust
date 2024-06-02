@@ -1,6 +1,6 @@
-extern crate multiinput;
+extern crate multiinput_zorua;
 
-use multiinput::*;
+use multiinput_zorua::*;
 fn main() {
     let mut manager = RawInputManager::new().unwrap();
     manager.register_devices(DeviceType::Joysticks(XInputInclude::True));
